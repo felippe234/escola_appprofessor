@@ -1,16 +1,18 @@
+// src/app/database/conexao.js
 import mysql from "mysql2/promise";
-
-const conexao = await mysql.createConnection({
-  host: "127.0.0.1",
-  port: 3306,
-  user: "root",
-  password: "",
-  database: "gestao_escolar",
+import config from "../../config/index.js"
+// ✅ Cria um pool de conexões (sem await no topo)
+const pool =  mysql.createPool({
+  host: config.db.host,
+  port: config.db.port,
+  user: config.db.user,
+  password: config.db.password,
+  database: config.db.database,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
 });
 
-console.log("Conectado ao banco de dados MySQL!");
+console.log("✅ Conectado ao banco de dados MySQL via pool!");
 
-export default conexao;
+export default pool;
